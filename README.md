@@ -9,7 +9,7 @@
 ```
 "写一篇公众号文章"
   → 抓热点 → 选题评分 → 素材采集 → 框架选择
-  → 写作（真实信息锚定 + 7层去AI痕迹 + 编辑锚点）
+  → 写作（真实信息锚定 + 3层反检测 + 编辑锚点）
   → SEO优化 → AI配图 → 微信排版 → 推送草稿箱
 ```
 
@@ -24,7 +24,7 @@
 | 选题生成 | 10 选题 × 3 维度评分 + 历史去重 | `references/topic-selection.md` |
 | 素材采集 | WebSearch 真实数据/引述/案例 | SKILL.md Step 3b |
 | 框架生成 | 5 套写作骨架（痛点/故事/清单/对比/热点） | `references/frameworks.md` |
-| 文章写作 | 真实信息锚定 + 7 层去 AI + 编辑锚点 | `references/writing-guide.md` |
+| 文章写作 | 真实信息锚定 + 3 层反检测 + 编辑锚点 | `references/writing-guide.md` |
 | SEO 优化 | 标题策略 / 摘要 / 关键词 / 标签 | `references/seo-rules.md` |
 | 视觉 AI | 封面 3 创意 + 内文 3-6 配图 | `toolkit/image_gen.py` |
 | 排版发布 | 16 主题 + 微信兼容修复 + 暗黑模式 | `toolkit/cli.py` |
@@ -159,6 +159,7 @@ cp config.example.yaml config.yaml
 你：看看文章数据怎么样            → 效果复盘
 你：做一个小绿书                  → 图片帖（横滑轮播）
 你：检查一下反 AI 配置              → 诊断报告
+你：优化写作参数                    → 迭代调优 writing-config
 ```
 
 ## 目录结构
@@ -173,13 +174,14 @@ wewrite/
 │
 ├── dist/openclaw/            # OpenClaw 兼容版（CI 自动构建）
 │
-├── scripts/                  # 数据采集 + 优化 + 构建
+├── scripts/                  # 数据采集 + 诊断 + 构建
 │   ├── fetch_hotspots.py       # 多平台热点抓取
 │   ├── seo_keywords.py         # SEO 关键词分析
 │   ├── fetch_stats.py          # 微信文章数据回填
 │   ├── build_playbook.py       # 从历史文章生成 Playbook
 │   ├── learn_edits.py          # 学习人工修改
 │   ├── humanness_score.py      # 文章"人味"打分器（11 项检测 + 参数映射）
+│   ├── diagnose.py             # 反 AI 配置诊断
 │   └── build_openclaw.py       # SKILL.md → OpenClaw 格式转换
 │
 ├── toolkit/                  # Markdown → 微信工具链
@@ -194,7 +196,7 @@ wewrite/
 ├── personas/                 # 5 套写作人格预设（含朱雀实测数据）
 │
 ├── references/               # Agent 按需加载
-│   ├── writing-guide.md        # 写作规范 + 7 层去 AI 痕迹 + 自检清单
+│   ├── writing-guide.md        # 写作规范 + 3 层反检测（统计/语言/内容）+ 14 项自检
 │   ├── frameworks.md           # 5 种写作框架
 │   ├── topic-selection.md      # 选题评估规则
 │   ├── seo-rules.md            # 微信 SEO 规则
@@ -221,9 +223,9 @@ Step 2  热点抓取 → 历史去重 + SEO → 选题
   ↓
 Step 3  框架选择 → 素材采集（WebSearch 真实数据）
   ↓
-Step 4  维度随机化 → 写作（7层规范 + 真实素材锚定 + 编辑锚点）
+Step 4  维度随机化 → 写作（3层反检测 + 真实素材锚定 + 编辑锚点）
   ↓
-Step 5  SEO 优化 → 去 AI 逐层验证（9 项自检）
+Step 5  SEO 优化 → 去 AI 逐层验证（14 项自检 + humanness_score 打分）
   ↓
 Step 6  视觉 AI（封面 + 内文配图）
   ↓

@@ -79,6 +79,7 @@ def get_draft(access_token: str, media_id: str) -> str:
         params={"access_token": access_token},
         json={"media_id": media_id},
     )
+    resp.encoding = "utf-8"
     data = resp.json()
 
     errcode = data.get("errcode", 0)

@@ -306,7 +306,7 @@ class MiniMaxProvider(ImageProvider):
     provider_key = "minimax"
 
     def __init__(self, api_key: str, model: str = "image-01",
-                 base_url: str = "https://api.minimax.io/v1", **_kw):
+                 base_url: str = "https://api.minimaxi.com/v1", **_kw):
         self._api_key = api_key
         self._model = model
         self._base_url = base_url

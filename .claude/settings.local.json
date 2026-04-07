@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__MiniMax__web_search",
+      "Bash(python3:*)",
+      "Bash(curl -s \"https://platform.minimaxi.com/docs/guides/image-generation\")"
+    ]
+  }
+}
